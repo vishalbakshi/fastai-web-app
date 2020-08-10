@@ -8,7 +8,7 @@ from io import BytesIO
 from fastai.vision import *
 
 model_file_url = 'https://drive.google.com/uc?export=download&id=1SO7-DOyykTQA6JNfByhDfolRZVbtR7eA'
-model_file_name = 'export.pkl'
+model_file_name = 'export'
 classes = ['bichon', 'maltese', 'poodle']
 path = Path(__file__).parent
 
@@ -24,7 +24,7 @@ async def download_file(url, dest):
             with open(dest, 'wb') as f: f.write(data)
 
 async def setup_learner():
-    await download_file(model_file_url, path/'models'/f'{model_file_name}.pth')
+    await download_file(model_file_url, path/'models'/f'{model_file_name}.pkl')
     data_bunch = ImageDataBunch.single_from_classes(path, classes,
         ds_tfms=get_transforms(), size=224).normalize(imagenet_stats)
     learn = create_cnn(data_bunch, models.resnet34, pretrained=False)
