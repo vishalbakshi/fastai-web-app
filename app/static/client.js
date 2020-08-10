@@ -23,6 +23,7 @@ function analyze() {
     xhr.onerror = function() {alert (xhr.responseText);}
     xhr.onload = function(e) {
         if (this.readyState === 4) {
+            console.log(e.target.responseText)
             var response = JSON.parse(e.target.responseText);
             el('result-label').innerHTML = `Result = ${response['result']}`;
         }
