@@ -6,9 +6,8 @@ import uvicorn, aiohttp, asyncio
 from io import BytesIO
 
 from fastai.vision import *
-
-model_file_url = 'https://drive.google.com/uc?export=download&id=1SO7-DOyykTQA6JNfByhDfolRZVbtR7eA'
-model_file_name = 'export'
+model_file_url = 'https://drive.google.com/uc?export=download&id=1TahGdls-ZTd4hnMaGhx1WwqRI_7GrIGt'
+model_file_name = 'model'
 classes = ['bichon', 'maltese', 'poodle']
 path = Path(__file__).parent
 
@@ -24,11 +23,11 @@ async def download_file(url, dest):
             with open(dest, 'wb') as f: f.write(data)
 
 async def setup_learner():
-    await download_file(model_file_url, path/'models'/f'{model_file_name}.pkl')
+    await download_file(model_file_url, path/'models'/f'{model_file_name}.pth')
     data_bunch = ImageDataBunch.single_from_classes(path, classes,
         ds_tfms=get_transforms(), size=224).normalize(imagenet_stats)
     learn = create_cnn(data_bunch, models.resnet34, pretrained=False)
-    learn = load_learner(path/'models',f'{model_file_name}.pkl')
+    learn.load(model_file_name)
     return learn
 
 loop = asyncio.get_event_loop()
