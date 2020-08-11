@@ -1,3 +1,4 @@
 runtime: custom
 env: flex
-disk_size_gb: 12
+resources:
+  disk_size_gb: 12
